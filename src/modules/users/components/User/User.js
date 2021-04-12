@@ -1,12 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-export default function User({ user }) {
+export default function User({ user, onDelete }) {
+    
+    const history = useHistory();
     return (
         <li style={style}>
-            Name: {user.name}<br/>
-            User Name: {user.username}<br/>
-            E-mail: {user.email}<br/>
-            Phone: {user.phone}
+            {user.name}
+            {user.phone}
+            {user.email}
+            <button onClick={() => onDelete(user.id)}>Delete</button>
+            <button onClick={() =>{setTimeout(() => {history.push('/users/' + user.id)}, 1000)
+            }}>Edit</button>
 
         </li>
     )
@@ -15,6 +20,6 @@ export default function User({ user }) {
 const style = {
     border: 'solid 2px #000',
     borderRadius: '5px',
-    width: '350px',
+    height: '50px',
     marginBottom: '5px'
 }

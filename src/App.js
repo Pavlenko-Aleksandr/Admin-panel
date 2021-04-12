@@ -5,6 +5,7 @@ import Header from './modules/header/components/Header/Header';
 import Dashboard from './modules/dashboard/components/dashboard/Dashboard';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Form from './modules/users/components/Form/Form';
 
 
 export default function App() {
@@ -17,6 +18,8 @@ export default function App() {
                     <Route path="/" exact component={Dashboard}/>
                     <Route path="/users" exact component={Users}/>
                     <Route path="/albums" exact component={Albums}/>
+                    <Route path="/add" exact component={Form}/>
+                    <Route path={'/users' + '/:id'} exact component={Form}/>
                 </div>
             </Switch>
         </Router>
