@@ -33,7 +33,7 @@ export function useUsers() {
             email: data.email,
         }, {
             headers: {'Content-Type': 'application/json'}
-        }).then(({res}) => setUsers(users.map((item) => item.id === res.data.id ? res.data : item)));
+        }).then(({data}) => setUsers(users.map((item) => item.id === data.id ? data : item)));
     };
 
 

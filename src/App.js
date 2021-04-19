@@ -4,7 +4,6 @@ import Albums from './modules/albums/components/Albums/Albums';
 import Header from './modules/header/components/Header/Header';
 import Dashboard from './modules/dashboard/components/dashboard/Dashboard';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
 import Form from './modules/users/components/Form/Form';
 
 

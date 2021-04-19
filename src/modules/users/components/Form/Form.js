@@ -1,44 +1,58 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useUsers } from '../../hooks/useUsers';
-import { Link } from 'react-router-dom';
+import { useUser } from '../../hooks/useUser';
+import { Button, Container } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+        width: '25ch',
+    },
+    },
+}));
 
 export default function Form() {
-  
+    const match = useRouteMatch();
+    const { user } = useUser(match.params.id);
     const history = useHistory();
-    const {addUser} =  useUsers();
-    const [user, setUser] = useState({
-        name: '',
-        phone: '',
-        email: ''
-    });
+    const {addUser, editUser} =  useUsers();
+    const [selectedUser, setSelectedUser] = useState(user);
+
+    const classes = useStyles();
+    
+    const Add = () => {
+        return Object.keys(user).length === 1 ? true : false
+    }
     
     const onFormSubmit = (e) => {
         e.preventDefault();
-        addUser(user);
-        setUser({name: '', phone: '', email: ''});
+        Add() ? editUser({...selectedUser}) : addUser(selectedUser);
         setTimeout(() => {history.push('/users')}, 1000);
-        
     };
 
-     const onInputChange = (e) => {
-        setUser({ ...user, [e.target.name]: e.target.value })
+    const onInputChange = (e) => { 
+        setSelectedUser(Add() ? { ...user[0], [e.target.name]: e.target.value } : { ...selectedUser, [e.target.name]: e.target.value })
     };
 
     return (
-        <div>
-            <form onSubmit={onFormSubmit}>
-                <input required
+        <Container maxWidth="sm">
+            <form className={classes.root} noValidate autoComplete="off">
+                <input
+                    required
                     type="text"
                     name="name"
-                    value={user.name}
+                    defaultValue={Add() ? user[0].name : ''}
                     onChange={onInputChange}
-                    placeholder="name"/><br/>
+                    placeholder="name"
+                    /><br/>
                 <input
                     required
                     type="tel"
                     name="phone"
-                    value={user.phone}
+                    defaultValue={Add() ? user[0].phone : ''}
                     onChange={onInputChange}
                     placeholder="phone"
                 /><br/>
@@ -46,13 +60,13 @@ export default function Form() {
                     required
                     type="email"
                     name="email"
-                    value={user.email}
+                    defaultValue={Add() ? user[0].email : ''}
                     onChange={onInputChange}
                     placeholder="email"
-                />
-                <button>Save user</button>
-                <Link to="/users">Cancel</Link>
+                /><br/>
+                <Button variant="contained" color="primary" onClick={onFormSubmit}>Save user</Button><br/>
+                <Button variant="contained" color="secondary" onClick={() => history.push('/users')}>Cancel</Button>
             </form>
-        </div>
+        </Container>
     )
 }

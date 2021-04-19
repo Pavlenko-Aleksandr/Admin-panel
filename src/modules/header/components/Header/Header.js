@@ -1,13 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import'./Header.css';
+import { useHistory } from 'react-router-dom';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
 
 export default function Header() {
+    const history = useHistory();
     return (
-        <div className="header">
-            <Link to="/">Dashboard</Link>
-            <Link to="/users">Users</Link>
-            <Link to="/albums">Albums</Link>
+        <div>
+            <AppBar position="static">
+                <Toolbar>
+                    <Button variant="contained" color="secondary" onClick={() => history.push('/')}>Dashboard</Button>
+                    <Button variant="contained" color="secondary" onClick={() => history.push('/users')}>Users</Button>
+                    <Button variant="contained" color="secondary" onClick={() => history.push('/albums')}>Albums</Button>
+                </Toolbar>
+            </AppBar>
         </div>
     )
 }
